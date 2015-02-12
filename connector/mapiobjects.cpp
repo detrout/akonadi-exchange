@@ -454,7 +454,6 @@ bool MapiMessage::propertiesPull(QVector<int> &tags, const bool tagsAppended, bo
         PidTagOriginalSenderName,
         PidTagSentRepresentingEmailAddress,
         PidTagSentRepresentingName,
-        PidTagSentRepresentingSimpleDisplayName,
         PidTagOriginalSentRepresentingEmailAddress,
         PidTagOriginalSentRepresentingName,
         0 };
@@ -721,7 +720,8 @@ bool MapiMessage::recipientsPull()
         case PidTagSentRepresentingEmailAddress:
             sentRepresenting.email = mapiExtractEmail(property, "SMTP");
             break;
-        CASE_PREFER_A_OVER_B(PidTagSentRepresentingName, PidTagSentRepresentingSimpleDisplayName, sentRepresenting.name, property.value().toString());
+        case PidTagSentRepresentingName:
+	    sentRepresenting.name = property.value().toString();
             break;
         case PidTagOriginalSentRepresentingEmailAddress:
             originalSentRepresenting.email = mapiExtractEmail(property, "SMTP");
