@@ -512,7 +512,7 @@ void MapiMessage::recipientPopulate(const char *phase, SRow &recipient, MapiReci
                 result.email = tmp;
             }
             break;
-        case PidTagPrimarySmtpAddress:
+        case PidTagSmtpAddress:
             result.email = mapiExtractEmail(property, "SMTP");
             break;
         case UNDOCUMENTED_PR_EMAIL_UNICODE:
@@ -799,7 +799,6 @@ bool MapiMessage::recipientsPull()
         PidTag7BitDisplayName_string8,
         PidTagDisplayName,
         PidTagRecipientDisplayName, 
-        PidTagPrimarySmtpAddress,
         UNDOCUMENTED_PR_EMAIL_UNICODE,
         0x60010018,
         PidTagRecipientTrackStatus,
