@@ -503,7 +503,6 @@ void MapiMessage::recipientPopulate(const char *phase, SRow &recipient, MapiReci
         // Note that the set of properties fetched here must be aligned
         // with those fetched in MapiConnector::resolveNames().
         switch (property.tag()) {
-        case PidTag7BitDisplayName_string8:
         case PidTagDisplayName:
         case PidTagRecipientDisplayName:
             result.name = property.value().toString();
@@ -796,7 +795,6 @@ bool MapiMessage::recipientsPull()
 
     // Server round trip here!
     static int recipientTagList[] = {
-        PidTag7BitDisplayName_string8,
         PidTagDisplayName,
         PidTagRecipientDisplayName, 
         UNDOCUMENTED_PR_EMAIL_UNICODE,
