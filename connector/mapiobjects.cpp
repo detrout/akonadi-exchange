@@ -823,7 +823,7 @@ bool MapiMessage::recipientsPull()
             MapiRecipient &to = m_recipients[needingResolution.at(unresolveds)];
 
             if (MAPI_RESOLVED == statuses->aulPropTag[i]) {
-                struct SRow &recipient = results->aRow[i - unresolveds];
+                SRow &recipient = results->aRow[i - unresolveds];
                 MapiRecipient result(MapiRecipient::To);
 
                 recipientPopulate("resolution", recipient, result);

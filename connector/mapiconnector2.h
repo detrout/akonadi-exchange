@@ -276,9 +276,9 @@ public:
      * Fetch upto the requested number of entries from the GAL. The start
      * point is where we previously left off.
      */
-    bool GALRead(unsigned requestedCount, SPropTagArray *tags, SRowSet **results, unsigned *percentagePosition = 0);
+    bool GALRead(unsigned requestedCount, SPropTagArray *tags, PropertyRowSet_r **results, unsigned *percentagePosition = 0);
 
-    bool GALSeek(const QString &displayName, unsigned *percentagePosition = 0, SPropTagArray *tags = 0, SRowSet **results = 0);
+    bool GALSeek(const QString &displayName, unsigned *percentagePosition = 0, SPropTagArray *tags = 0, PropertyRowSet_r **results = 0);
 
     bool GALRewind();
 

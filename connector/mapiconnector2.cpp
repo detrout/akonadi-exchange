@@ -132,7 +132,7 @@ QString mapiError()
     }
 }
 
-static int profileSelectCallback(struct SRowSet *rowset, const void* /*private_var*/)
+static int profileSelectCallback(struct PropertyRowSet_r *rowset, const void* /*private_var*/)
 {
     qCritical() << "Found more than 1 matching users -> cancel";
 
@@ -252,7 +252,7 @@ bool MapiConnector2::GALCount(unsigned *totalCount)
     return true;
 }
 
-bool MapiConnector2::GALRead(unsigned requestedCount, SPropTagArray *tags, SRowSet **results, unsigned *percentagePosition)
+bool MapiConnector2::GALRead(unsigned requestedCount, SPropTagArray *tags, PropertyRowSet_r **results, unsigned *percentagePosition)
 {
     if (MAPI_E_SUCCESS != GetGALTable(m_session, tags, results, requestedCount, TABLE_CUR)) {
         error() << "cannot read GAL entries" << mapiError();
@@ -279,11 +279,11 @@ bool MapiConnector2::GALRewind()
     return true;
 }
 
-bool MapiConnector2::GALSeek(const QString &displayName, unsigned *percentagePosition, SPropTagArray *tags, SRowSet **results)
+bool MapiConnector2::GALSeek(const QString &displayName, unsigned *percentagePosition, SPropTagArray *tags, PropertyRowSet_r **results)
 {
     struct nspi_context *nspi = (struct nspi_context *)m_session->nspi->ctx;
-    SPropValue key;
-    SRowSet *dummy;
+    PropertyValue_r key;
+    PropertyRowSet_r *dummy;
 
     key.ulPropTag = (MAPITAGS)PR_DISPLAY_NAME_UNICODE;
     key.dwAlignPad = 0;
@@ -386,10 +386,12 @@ void MapiConnector2::notified(int fd)
 bool MapiConnector2::resolveNames(const char *names[], SPropTagArray *tags,
                   SRowSet **results, PropertyTagArray_r **statuses)
 {
-    if (MAPI_E_SUCCESS != ResolveNames(m_session, names, tags, results, statuses, MAPI_UNICODE)) {
+    PropertyRowSet_r *rowset = 0;
+    if (MAPI_E_SUCCESS != ResolveNames(m_session, names, tags, &rowset, statuses, MAPI_UNICODE)) {
         error() << "cannot resolve names" << mapiError();
         return false;
     }
+    cast_PropertyRowSet_to_SRowSet(*results, rowset, *results);
     return true;
 }
 

@@ -56,7 +56,7 @@ extern QString mapiExtractEmail(const class MapiProperty &source, const QByteArr
 /**
  * A very simple wrapper around a property.
  */
-class MapiProperty : private SPropValue
+class MapiProperty : private PropertyValue_r
 {
 public:
     MapiProperty(SPropValue &property);

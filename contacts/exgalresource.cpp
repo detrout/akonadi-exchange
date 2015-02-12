@@ -622,15 +622,19 @@ public:
      */
     bool read(unsigned entries, Item::List &contacts, unsigned *percentagePosition = 0)
     {
-        struct SRowSet *results = NULL;
+        PropertyRowSet_r *rowset = NULL;
+        SRowSet *results = NULL;
 
-        if (!m_connection->GALRead(entries, &contactTags, &results, percentagePosition)) {
+        if (!m_connection->GALRead(entries, &contactTags, &rowset, percentagePosition)) {
             return false;
         }
         if (!results) {
             // All done!
             return true;
         }
+
+        results = talloc_zero(rowset, struct SRowSet);
+        cast_PropertyRowSet_to_SRowSet(results, rowset, results);
 
         // For each row, construct an Addressee, and add the item to the list.
         for (unsigned i = 0; i < results->cRows; i++) {
